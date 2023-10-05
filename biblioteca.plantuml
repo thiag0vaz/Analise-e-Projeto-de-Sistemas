@@ -1,0 +1,69 @@
+@startuml biblioteca
+
+class Empresa {
+- nome: String
+- funcionarios: List
+- biblioteca: Biblioteca
++ adicionarFuncionario()
+}
+
+class Biblioteca {
+- nome: String
+- funcionarios: List
+- publicacoes: List
+- reservas: List
++ cadastrarFuncionario()
++ cadastrarPublicacao()
++ fazerReserva()
++ fazerEmprestimo()
++ notificarProximoDaFila()
++ removerReserva()
++ resgatarLivro()
+}
+
+class Funcionario {
+- nome: String
+- cpf: String
++ fazerReserva()
++ fazerEmprestimo()
++ notificarAtraso()
+}
+
+class Publicacao {
+- titulo: String
+- autor: String
+- tipo: String
+}
+
+class Reserva {
+- id: String
+- funcionario: Funcionario
+- publicacao: Publicacao
+- dataReserva: Date
+- expirada: boolean
+- notificado: boolean
++ expirar()
++ cancelar()
+}
+
+class Emprestimo {
+- id: String
+- funcionario: Funcionario
+- publicacao: Publicacao
+- dataEmprestimo: Date
+- dataDevolucao: Date
++ verificarAtraso()
++ devolver()
++ notificarAtraso()
+}
+
+Empresa "1" o-- "N" Biblioteca : pertence
+Biblioteca "1" *-- "N" Funcionario : pertence
+Biblioteca "1" -- "N" Publicacao : possui
+Biblioteca "1" -- "N" Reserva : disponibiliza
+Reserva "1" o-- "N" Publicacao : reserva
+Emprestimo "1" o-- "N" Publicacao : empresta
+Funcionario "1" --o "N" Emprestimo : faz
+Funcionario  "1" --o "N" Reserva : faz
+
+@enduml
